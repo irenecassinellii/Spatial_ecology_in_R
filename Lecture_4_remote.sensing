@@ -1,0 +1,17 @@
+# Remote sensing (RS) data
+
+install.packages("devtools")
+install.packages("terra")
+library(devtools)
+library(terra)
+
+devtools::install_github("ducciorocchini/imageRy")
+library(imageRy)
+
+im.list()
+b2 <- im.import("sentinel.dolomites.b2.tif") # sentinel is the name of a satellite
+
+clb <- colorRampPalette(c("darkgrey", "grey", "lightgrey"))(100)
+plot (b2, col=clb
+
+# try to do the same with b3
