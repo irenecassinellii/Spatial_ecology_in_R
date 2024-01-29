@@ -76,17 +76,25 @@ plot(ndvi2012, col=cl)
 
 dev.off()
 
-# 
-viridisc <- colorRampPalette(viridis(7))(255)
-plot(ndvi2000, col=viridisc)
-plot(ndvi2012, col=viridisc)
+# Make it colorblind approved!
+viridis <- colorRampPalette(viridis(7))(255)
+plot(ndvi2000, col=viridis)
+plot(ndvi2012, col=viridis)
 
 par(mfrow=c(1,2))
-plot(ndvi2000, col=viridisc)
-plot(ndvi2012, col=viridisc)
+plot(ndvi2000, col=viridis)
+plot(ndvi2012, col=viridis)
 
-# Multitemporal change detection
+dev.off()
+
+# Multi-temporal change detection in vegetation cover between 2000 and 2012
 amazondif = amazon2000[[1]] - amazon2012[[1]]
 
-cl <- colorRampPalette(c("brown", "grey", "orange")) (100)
+# Multi-temporal change detection involves the analysis of raster images acquired at different time periods
+# to identify and quantify changes in land use, vegetation cover, or other environmental phenomena over time.
+
+cl <- colorRampPalette(c("brown", "white", "orange")) (100)
 plot(amazondif, col=cl)
+
+dev.off()
+
