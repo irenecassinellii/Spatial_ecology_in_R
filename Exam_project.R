@@ -24,45 +24,6 @@ par(mfrow=c(2,1))
 plotRGB(amazon2000, r=1, g=2, b=3)
 plotRGB(amazon2012, r=1, g=2, b=3)
 
-# To cut the images install the packages "jpeg" and "magick"
-install.packages("jpeg")
-install.packages("magick")
-
-# and load them with the function library()
-library(jpeg)
-library(magick)
-
-# Upload jpg images
-img2000 <- image_read("Amazon2000.jpg")
-img2012 <- image_read("Amazon2012.jpg")
-
-# Specify the co-ordinates of the crop rectangle (x1, y1, width, height)
-x1 <- 200
-y1 <- 200
-width <- 2000
-height <- 1800
-
-# Crop the image with the function image_crop() and use the paste() function to define the new image geometry
-img2000_cropped <- image_crop(img2000, geometry = paste0(width, "x", height, "+", x1, "+", y1))
-img2012_cropped <- image_crop(img2012, geometry = paste0(width, "x", height, "+", x1, "+", y1))
-
-# and save cropped images with the function image_write()
-image_write(img2000_cropped, path = "Amazon2000.jpg")
-image_write(img2012_cropped, path = "Amazon2012.jpg")
-
-# Use the dev.off() function to clean the console 
-dev.off()
-
-# and re-set the work directory to visualize the new images 
-setwd("C:/Users/irene/Desktop")
-
-amazon2000 <- brick("Amazon2000.jpg")
-amazon2012 <- brick("Amazon2012.jpg")
-
-par(mfrow=c(2,1))
-plotRGB(amazon2000, r=1, g=2, b=3)
-plotRGB(amazon2012, r=1, g=2, b=3)
-
 # Multitemporal change detection
 amazondif = amazon2000[[1]] - amazon2012[[1]]
 
