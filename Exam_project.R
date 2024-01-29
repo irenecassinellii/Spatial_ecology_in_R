@@ -7,12 +7,19 @@
 # The images used for this project were downloaded from the NASA website 
 # (https://earthobservatory.nasa.gov/world-of-change/Deforestation)
 
-# Recall all the packages needed for this study
+# Download the packages needed for the study
+install.packages("raster")
+install.packages("RStoolbox")
+install.packages("ggplot2")
+install.packages("patchwork")
+install.packages("viridis")
+
+# and recall them
 library(raster)
-library(ggplot2)
 library(RStoolbox)
-library(viridis)
+library(ggplot2)
 library(patchwork)
+library(viridis)
 
 # Set the work directory to import the images needed
 setwd("C:/Users/irene/Desktop")
@@ -98,3 +105,36 @@ plot(amazondif, col=cl)
 
 dev.off()
 
+library(RStoolbox)
+
+d1c <- unsuperClass(amazon2000, nClasses=2)
+plot(d1c$map)
+
+freq(d1c$map)
+# Class 1: forest = 1.770.620
+# Class 2: human impact = 469.380
+
+f2000 <- 1770620 / (1770620 + 469380)
+f2000
+# f2000 = 0.7904554
+
+h2000 <- 469380 / (1770630 + 469380)
+h2000
+# h2000 = 0.2095437
+
+dev.off()
+
+d2c <- unsuperClass(amazon2012, nClasses=2)
+plot(d2c$map)
+
+freq(d2c$map)
+# Class 1: forest = 640.864
+# Class 2: human impact = 1.599.136
+
+f2012 <- 640864 / (1599136 + 640864)
+f2012
+# f2012 = 0.2861
+
+h2012 <- 1599136 / (1599136 + 640864)
+h2012
+# h2012 = 0.7139
