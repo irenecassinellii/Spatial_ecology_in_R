@@ -24,16 +24,15 @@ najadif = naja[[1]] - najaaug[[1]]
 cl <- colorRampPalette(c("brown", "grey", "orange")) (100)
 plot(najadif, col=cl)
 
-# Download your own preferred image:
-typhoon <- rast("mawar_vir2_2023144_lrg.jpg")
+# download an image
+setwd ("C:/Users/irene/Desktop/CORSI MAGISTRALE/SECONDO ANNO/Spatial ecology in R")
+powell22 <- rast ("C:/Users/irene/Desktop/CORSI MAGISTRALE/SECONDO ANNO/Spatial ecology in R/Fig3.jpg")
+powell23 <- rast ("C:/Users/irene/Desktop/CORSI MAGISTRALE/SECONDO ANNO/Spatial ecology in R/Fig4.jpg")
 
-plotRGB(typhoon, r=1, g=2, b=3)
-plotRGB(typhoon, r=2, g=1, b=3)
-plotRGB(typhoon, r=3, g=2, b=1)
+par (mfrow=c(2, 1))
+plotRGB (powell22, r=1, g=2, b=3)
+plotRGB (powell23, r=1, g=2, b=3)
 
-
-# The Mato Grosso image can be downloaded directly from EO-NASA:
-
-mato <- rast("matogrosso_l5_1992219_lrg.jpg")
-plotRGB(mato, r=1, g=2, b=3) 
-plotRGB(mato, r=2, g=1, b=3) 
+powelldif = powell22[[1]] - powell23[[1]]
+cl <- colorRampPalette (c("red", "white", "blue"))(100)
+plot (powelldif, col=cl)
