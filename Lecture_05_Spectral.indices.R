@@ -31,7 +31,7 @@ im.list()
 m1992 <- im.import("matogrosso_l5_1992219_lrg.jpg")   
 # bands: 1=NIR, 2=RED, 3=GREEN
 im.plotRGB(m1992, r=1, g=2, b=3)
-im.plotRGB(m1992, 1, 2, 3)
+im.plotRGB(m1992, r=1, g=2, b=3)
 im.plotRGB(m1992, r=2, g=1, b=3)
 im.plotRGB(m1992, r=2, g=3, b=1)
 
