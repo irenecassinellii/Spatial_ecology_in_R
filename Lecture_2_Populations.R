@@ -56,4 +56,4 @@ elevation <- bei.extra[[1]]
 plot (elevation)
 par(mfrow=c(1,2))
 plot(densitymap)
-plot(elev)
+plot(elevation)
