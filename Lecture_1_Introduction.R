@@ -1,4 +1,4 @@
-# Here I can write anything I want!!! 42 is the meaning of life univcerse and all!
+# Here I can write anything I want!
 
 # R as a calculator
 2 + 3
