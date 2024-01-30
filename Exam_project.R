@@ -145,6 +145,7 @@ landcover <- c("Forest", "Humans")
 percent_2000 <- c(79.05, 20.95)
 percent_2012 <- c(28.61, 71.39)
 
+
 percentage <- data.frame(landcover, percent_2000, percent_2012)
 
 library(ggplot2)
@@ -158,15 +159,3 @@ p1 <- ggplot(percentage, aes(x=landcover, y=percent_2000, color=landcover)) + ge
 p2 <- ggplot(percentage, aes(x=landcover, y=percent_2012, color=landcover)) + geom_bar(stat="identity", fill="white")
 
 p1 + p2
-
-plotRGB(amazon2000, r=1, g=2, b=3)
-
-dvi2000 <- amazon2000[[1]] - amazon2000[[2]]
-plot(dvi2000)
-
-library(viridis)
-
-pp1 <- ggplot(percentage, aes(x=landcover, y=percent_2000, color=landcover)) + geom_raster(dvi2000, mapping=aes(x=x, y=y, fill=layer)) + scale_fill_viridis(option="viridis") + ggtitle("Multispectral Rao")
-pp2 <- ggplot(percentage, aes(x=landcover, y=percent_2012, color=landcover)) + geom_raster(dvi2000, mapping=aes(x=x, y=y, fill=layer)) + scale_fill_viridis(option="inferno") + ggtitle("Multispectral Rao")
-
-pp1 + pp2
