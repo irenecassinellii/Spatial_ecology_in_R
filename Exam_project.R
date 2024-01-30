@@ -2,7 +2,7 @@
 
 ## Temporal analysis of the Amazon vegetation cover as a result of deforestation.
 ## This project aims to study the decrease in vegetation cover in the Amazon rainforest 
-## caused by deforestation between 2000 and 2012
+## caused by deforestation between 2001 and 2012
 
 ## The images used for the analysis are taken from MODIS (Moderate Resolution Imaging Spectroradiometer) 
 ## on NASA’s Terra satellite (https://earthobservatory.nasa.gov/world-of-change/Deforestation).
@@ -13,20 +13,27 @@ install.packages("RStoolbox")
 install.packages("ggplot2")
 install.packages("patchwork")
 install.packages("viridis")
+install.packages("magick")
 
 # and recall them
-library(raster) #
-library(RStoolbox) #
-library(ggplot2) #
-library(patchwork) #
-library(viridis) #
+library(raster)
+library(RStoolbox)
+library(ggplot2)
+library(patchwork)
+library(viridis)
+library(magick)
 
 # Set the work directory to import the images needed
 setwd("C:/Users/irene/Desktop")
 
 # Use the brick() function of the raster package to display the images
-amazon2000 <- brick("Amazon2000.jpg")
+amazon2001 <- brick("Amazon2001.jpg")
 amazon2012 <- brick("Amazon2012.jpg")
+
+amazon2001 <- image_read("Amazon2001.jpg")
+amazon2001_cropped <- image_crop(img, geometry="200x200+100+100")
+image_write(amazon2001_cropped, path="amazon2001_cropped.jpg")
+
 
 # Use the function par() to arrange the two graphs in a 2x1 grid (i.e., one below the other)
 # and create a multi-frame with 2000 and 2012 Amazon images with plotRGB() function
@@ -156,8 +163,8 @@ freq(d2c$map)
 # 1     1     1  636865
 # 2     1     2 1603135
 
-## Class 1: forest = 636865
-## Class 2: human impact = 1603135
+## Class 1: human impact = 636865
+## Class 2: forest = 1603135
 
 # Forest component of 2012
 f2012 <- 636865 / (1603135 + 636865) # or f2012 <- d2c$map[[1]] / (d2c$map[[2]] + d2c$map[[1]]) 
