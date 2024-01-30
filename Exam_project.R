@@ -100,8 +100,8 @@ amazondif = amazon2000[[1]] - amazon2012[[1]]
 # Multi-temporal change detection involves the analysis of raster images acquired at different time periods
 # to identify and quantify changes in land use, vegetation cover, or other environmental phenomena over time.
 
-cl <- colorRampPalette(c("brown", "white", "orange")) (100)
-plot(amazondif, col=cl)
+cl2 <- colorRampPalette(c("brown", "white", "orange")) (100)
+plot(amazondif, col=cl2)
 
 dev.off()
 
@@ -138,3 +138,35 @@ f2012
 h2012 <- 1599136 / (1599136 + 640864)
 h2012
 # h2012 = 0.7139
+
+dev.off()
+
+landcover <- c("Forest", "Humans")
+percent_2000 <- c(79.05, 20.95)
+percent_2012 <- c(28.61, 71.39)
+
+percentage <- data.frame(landcover, percent_2000, percent_2012)
+
+library(ggplot2)
+ggplot(percentage, aes(x=landcover, y=percent_2000, color=landcover)) + geom_bar(stat="identity", fill="orange")
+ggplot(percentage, aes(x=landcover, y=percent_2012, color=landcover)) + geom_bar(stat="identity", fill="orange")
+
+dev.off()
+
+library(patchwork)
+p1 <- ggplot(percentage, aes(x=landcover, y=percent_2000, color=landcover)) + geom_bar(stat="identity", fill="white")
+p2 <- ggplot(percentage, aes(x=landcover, y=percent_2012, color=landcover)) + geom_bar(stat="identity", fill="white")
+
+p1 + p2
+
+plotRGB(amazon2000, r=1, g=2, b=3)
+
+dvi2000 <- amazon2000[[1]] - amazon2000[[2]]
+plot(dvi2000)
+
+library(viridis)
+
+pp1 <- ggplot(percentage, aes(x=landcover, y=percent_2000, color=landcover)) + geom_raster(dvi2000, mapping=aes(x=x, y=y, fill=layer)) + scale_fill_viridis(option="viridis") + ggtitle("Multispectral Rao")
+pp2 <- ggplot(percentage, aes(x=landcover, y=percent_2012, color=landcover)) + geom_raster(dvi2000, mapping=aes(x=x, y=y, fill=layer)) + scale_fill_viridis(option="inferno") + ggtitle("Multispectral Rao")
+
+pp1 + pp2
