@@ -158,3 +158,6 @@ p1 <- ggplot(percentage, aes(x=landcover, y=percent_2000, color=landcover)) + ge
 p2 <- ggplot(percentage, aes(x=landcover, y=percent_2012, color=landcover)) + geom_bar(stat="identity", fill="white")
 
 p1 + p2
+
+nir <- amazon2000[1]]
+plot(nir)
