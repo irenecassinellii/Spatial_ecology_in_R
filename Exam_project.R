@@ -173,6 +173,7 @@ h2012
 landcover <- c("Forest", "Humans")
 percent_2000 <- c(79.06, 20.94)
 percent_2012 <- c(28.43, 71.57)
+
 percentage <- data.frame(landcover, percent_2000, percent_2012)
 percentage
 
