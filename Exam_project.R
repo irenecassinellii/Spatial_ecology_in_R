@@ -145,12 +145,11 @@ landcover <- c("Forest", "Humans")
 percent_2000 <- c(79.05, 20.95)
 percent_2012 <- c(28.61, 71.39)
 
-
 percentage <- data.frame(landcover, percent_2000, percent_2012)
 
 library(ggplot2)
-ggplot(percentage, aes(x=landcover, y=percent_2000, color=landcover)) + geom_bar(stat="identity", fill="orange")
-ggplot(percentage, aes(x=landcover, y=percent_2012, color=landcover)) + geom_bar(stat="identity", fill="orange")
+ggplot(percentage, aes(x=landcover, y=percent_2000, color=landcover)) + geom_bar(stat="identity", fill="white")
+ggplot(percentage, aes(x=landcover, y=percent_2012, color=landcover)) + geom_bar(stat="identity", fill="white")
 
 dev.off()
 
