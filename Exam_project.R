@@ -59,6 +59,9 @@ jpeg("amazon2012RGB.jpg")
 plotRGB(amazon2012, r=1, g=2, b=3)
 dev.off()
 
+# Clean the current graphic visualization
+dev.off()
+
 # Calculate the Amazon Difference Vegetation Index (DVI) of 2000
 dvi2001 = amazon2001[[1]] - amazon2001[[2]]
 plot(dvi2001)
@@ -87,6 +90,13 @@ par(mfrow=c(1, 2))
 plot (dvi2001, col=cl, zlim=c(-40, 80))
 plot (dvi2012, col=cl, zlim=c(-40, 80))
 
+# Save the image with the png() function (better resolution compared to jpg)
+png("amazonDVI.png")
+par(mfrow=c(1, 2))
+plot (dvi2001, col=cl, zlim=c(-40, 80))
+plot (dvi2012, col=cl, zlim=c(-40, 80))
+dev.off()
+
 # Clean the current graphic visualization
 dev.off()
 
@@ -103,11 +113,23 @@ plot (ndvi2012, col=cl, zlim=c(-1, 1))
 ## NDVI is a normalized index that provides standardized values that can be
 ## more easily interpreted and compared between different images or areas.
 
-# Now plot and compare the two graphs and make it colorblind approved
+# Now plot and compare the two graphs
+par(mfrow=c(1,2))
+plot(ndvi2001, col=cl, zlim=c(-1, 1))
+plot(ndvi2012, col=cl, zlim=c(-1, 1))
+
+# and make it colorblind approved
 viridis <- colorRampPalette(viridis(7))(255)
 par(mfrow=c(1,2))
 plot(ndvi2001, col=viridis(2), zlim=c(-1, 1))
 plot(ndvi2012, col=viridis(2), zlim=c(-1, 1))
+
+# Save the image with the png() function
+png("amazonNDVI.png")
+par(mfrow=c(1,2))
+plot(ndvi2001, col=viridis(2), zlim=c(-1, 1))
+plot(ndvi2012, col=viridis(2), zlim=c(-1, 1))
+dev.off()
 
 dev.off()
 
@@ -118,8 +140,13 @@ amazondif = amazon2001[[1]] - amazon2012[[1]]
 ## to identify and quantify changes in land use, vegetation cover, or other environmental phenomena over time.
 
 # Specify a color scheme and plot the resulting image 
-cl2 <- colorRampPalette(c("brown", "white", "orange"))(100)
+cl2 <- colorRampPalette(c("black", "brown", "white", "orange"))(100)
 plot(amazondif, col=cl2)
+
+# Save the image with the png() function
+png("amazonDIF.png")
+plot(amazondif, col=cl2)
+dev.off()
 
 dev.off()
 
@@ -132,66 +159,76 @@ plot(d1c$map)
 
 # To analyze the distribution of values within the raster image use the freq() function
 val2001 <- freq(d1c$map)
+val2001
 
-#  layer value   count
-# 1     1     1  468953
-# 2     1     2 1771047
+#   layer value   count
+# 1     1     1 1378305
+# 2     1     2 3621695
 
-## Class 1: human impact = 468953
-## Class 2: forest = 1771047
+## Class 1: human impact = 1378305
+## Class 2: forest = 3621695
 
 # Forest component of 2001
 f2001 <- val2001[2,3] / (val2001[2,3] + val2001[1,3])
 f2001
 
+## f2001 = 0.724339
+
 # Compute the forest percentage of 2001
 percent_f2001 <- f2001 * 100
 percent_f2001
 
-## f2001 = 0,790646 = 79,06%
+## percent_f2001 = 72.43
 
 # Human component of 2001
 h2001 <- val2001[1,3] / (val2001[2,3] + val2001[1,3])
 h2001
 
+## h2001 = 0.275661
+
 # Human percentage of 2001
 percent_h2001 <- h2001 * 100
 percent_h2001
 
-## h2001 = 0,209354 = 20,94%
+## percent_h2001 = 27.57
 
 # Now compute the same classification for 2012 data
 d2c <- unsuperClass(amazon2012, nClasses=2)
 plot(d2c$map)
 
 val2012 <- freq(d2c$map)
+val2012
 
-#  layer value   count
-# 1     1     1  636865
-# 2     1     2 1603135
+#   layer value   count
+# 1     1     1 1499729
+# 2     1     2 3500271
 
-## Class 1: human impact = 636865
-## Class 2: forest = 1603135
+## Class 1: human impact = 1499729
+## Class 2: forest = 3500271
 
 # Forest component of 2012
 f2012 <- val2012[2,3] / (val2012[2,3] + val2012[1,3])
 f2012
 
+## f2012 = 0.7000542
+
 # Forest percentage of 2012
 percent_f2012 <- f2012 * 100
 percent_f2012
 
-## f2012 =  0,2843147 = 28,43%
+## percent_f2012 = 70.00
 
 # Human component of 2012
 h2012 <- val2012[1,3] / (val2012[2,3] + val2012[1,3])
 h2012
 
+## h2012 = 0.2999458
+
 # Human percentage of 2012
 percent_h2012 <- h2012 * 100
 percent_h2012
 
-## h2012 = 0,7156853 = 71,57%
+## percent_h2012 = 30.00
 
 # Create the final table to assess land use and cover changes with the data.frame() function
 landcover <- c("Forest", "Humans")
@@ -200,9 +237,9 @@ percent_2012 <- c(percent_f2012, percent_h2012)
 percentage <- data.frame(landcover, percent_2001, percent_2012)
 percentage
 
-#     landcover percent_2000 percent_2012
-# 1    Forest        79.06        28.43
-# 2    Humans        20.94        71.57
+#   landcover percent_2001 percent_2012
+# 1    Forest      72.4339     70.00542
+# 2    Humans      27.5661     29.99458
 
 # Plot data within a histogram with the ggplot() function of the ggplot package
 ggplot(percentage, aes(x=landcover, y=percent_2001, color=landcover)) + geom_bar(stat="identity", fill="white")
@@ -216,5 +253,10 @@ p2 <- ggplot(percentage, aes(x=landcover, y=percent_2012, color=landcover)) + ge
 
 # Plot the two histograms and compare them 
 p1 + p2
+
+# Save the final image
+png("histograms.png")
+p1 + p2
+dev.off()
 
 dev.off()
