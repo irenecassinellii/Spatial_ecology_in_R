@@ -15,7 +15,7 @@ install.packages("patchwork")
 install.packages("viridis")
 install.packages("magick")
 
-# and recall them
+# and then load and recall them
 library(raster)
 library(RStoolbox)
 library(ggplot2)
@@ -24,13 +24,13 @@ library(viridis)
 library(magick)
 
 # Set the work directory to import the images needed
-setwd("C:/Users/irene/Desktop")
+setwd("C:/Users/irene/Desktop/Esame R")
 
-# Use the brick() function of the raster package to display the images
+# Use the brick() function of the raster package to display multi-layer raster objects
 og_amazon2001 <- brick("Amazon2001.jpg")
 og_amazon2012 <- brick("Amazon2012.jpg")
 
-# Crop the original images 
+# Crop the two original images with the functions of the magick package
 og_amazon2001 <- image_read("Amazon2001.jpg")
 amazon2001_cropped <- image_crop(og_amazon2001, geometry="2500x2000+500+500")
 image_write(amazon2001_cropped, path="amazon2001_cropped.jpg")
@@ -39,13 +39,14 @@ og_amazon2012 <- image_read("Amazon2012.jpg")
 amazon2012_cropped <- image_crop(og_amazon2012, geometry="2500x2000+500+500")
 image_write(amazon2012_cropped, path="amazon2012_cropped.jpg")
 
+# and display the cropped images with the brick() function
 amazon2001 <- brick("amazon2001_cropped.jpg")
 amazon2012 <- brick("amazon2012_cropped.jpg")
 
 # Use the function par() to arrange the two graphs in a 2x1 grid (i.e., one below the other)
-# and create a multi-frame with 2000 and 2012 Amazon images with plotRGB() function
+# and create a multi-frame with the plotRGB() function of the raster package
 par(mfrow=c(2,1))
-plotRGB(amazon2001, r=1, g=2, b=3)
+plotRGB(amazon2001, r=1, g=2, b=3) # multi-bands color images
 plotRGB(amazon2012, r=1, g=2, b=3)
 
 ## Bands: 1 = Near-InfraRed (NIR), 2 = Red (R), 3 = Green (G)
@@ -62,73 +63,77 @@ dev.off()
 # Clean the current graphic visualization
 dev.off()
 
-# Calculate the Amazon Difference Vegetation Index (DVI) of 2000
+# Calculate the Amazon Difference Vegetation Index (DVI) of 2001
 dvi2001 = amazon2001[[1]] - amazon2001[[2]]
 plot(dvi2001)
 
 ## DVI = NIR - R 
-
-# To effectively visualize raster data use the colourRampPalette() function to define new image colours
-cl <- colorRampPalette(c("darkblue", "white", "red", "black"))(100)
-plot (dvi2001, col=cl, zlim=c(-40, 80))
-
-## zlim() function is used to define the scale of the graph
-
-# Calculate the DVI of 2012 
-dvi2012 = amazon2012[[1]] - amazon2012[[2]]
-plot(dvi2012)
-
 ## DVI is defined as the difference between the reflectance value in two bands of
 ## the electromagnetic spectrum (typically, near-infrared (NIR) and red (R) bands).
 ## The DVI index can be useful for detecting the presence and density of vegetation.
 
+# To effectively visualize raster data use the colourRampPalette() function to define new image colours
 cl <- colorRampPalette(c("darkblue", "white", "red", "black"))(100)
-plot (dvi2012, col=cl)
+plot (dvi2001, col=cl, zlim=c(-50, 100))
 
-# Visualize the two graphs in a 2x1 grid and compare them
+# zlim() function is used to specify the scale of the graph
+
+# Calculate the DVI of 2012 and plot it using the same color palette 
+dvi2012 = amazon2012[[1]] - amazon2012[[2]]
+plot(dvi2012)
+plot (dvi2012, col=cl, zlim=c(-50, 100))
+
+# Visualize the two graphs in a 2x1 grid and compare the results
 par(mfrow=c(1, 2))
-plot (dvi2001, col=cl, zlim=c(-40, 80))
-plot (dvi2012, col=cl, zlim=c(-40, 80))
+plot (dvi2001, col=cl, zlim=c(-50, 100))
+plot (dvi2012, col=cl, zlim=c(-50, 100))
+
+# Make it colorblind approved
+par(mfrow=c(1, 2))
+viridis <- colorRampPalette(viridis(7))(255)
+plot (dvi2001, col=viridis, zlim=c(-50, 100))
+plot (dvi2012, col=viridis, zlim=c(-50, 100))
+
+## There is a decrease in the presence and density of vegetation between 2000 and 2012 
 
 # Save the image with the png() function (better resolution compared to jpg)
 png("amazonDVI.png")
 par(mfrow=c(1, 2))
-plot (dvi2001, col=cl, zlim=c(-40, 80))
-plot (dvi2012, col=cl, zlim=c(-40, 80))
+plot (dvi2001, col=cl, zlim=c(-50, 100))
+plot (dvi2012, col=cl, zlim=c(-50, 100))
 dev.off()
 
 # Clean the current graphic visualization
 dev.off()
 
-# Calculate the Normalized Difference Vegetation Index (NDVI) of 2000
-ndvi2001 =  (amazon2001[[1]] - amazon2001[[2]]) / (amazon2001[[1]] + amazon2001[[2]])
+# Calculate the Normalized Difference Vegetation Index (NDVI) of 2001
 ndvi2001 = dvi2001 / (amazon2001[[1]] + amazon2001[[2]])
-plot (ndvi2001, col=cl, zlim=c(-1, 1))
+cl1 <- colorRampPalette(c("darkblue", "white", "red"))(100)
+plot (ndvi2001, col=cl1, zlim=c(-0.5, 1))
+
+## NDVI is a normalized index that provides standardized values that can be more easily 
+## interpreted and compared between different images or areas. NDVI values range 
+## from -1 to +1, with higher values indicating a higher density of green vegetation.
 
 # Calculate the NDVI of 2012
-ndvi2012 = (amazon2012[[1]] - amazon2012[[2]]) / (amazon2012[[1]] + amazon2012[[2]])
 ndvi2012 = dvi2012 / (amazon2012[[1]] + amazon2012[[2]])
-plot (ndvi2012, col=cl, zlim=c(-1, 1))
-
-## NDVI is a normalized index that provides standardized values that can be
-## more easily interpreted and compared between different images or areas.
+plot (ndvi2012, col=cl1, zlim=c(-0.5, 1))
 
 # Now plot and compare the two graphs
 par(mfrow=c(1,2))
-plot(ndvi2001, col=cl, zlim=c(-1, 1))
-plot(ndvi2012, col=cl, zlim=c(-1, 1))
+plot(ndvi2001, col=cl1, zlim=c(-0.5, 1))
+plot(ndvi2012, col=cl1, zlim=c(-0.5, 1))
 
-# and make it colorblind approved
-viridis <- colorRampPalette(viridis(7))(255)
+# and make it colorblind approved 
 par(mfrow=c(1,2))
-plot(ndvi2001, col=viridis(2), zlim=c(-1, 1))
-plot(ndvi2012, col=viridis(2), zlim=c(-1, 1))
+plot(ndvi2001, col=viridis, zlim=c(-0.5, 1))
+plot(ndvi2012, col=viridis, zlim=c(-0.5, 1))
 
 # Save the image with the png() function
 png("amazonNDVI.png")
 par(mfrow=c(1,2))
-plot(ndvi2001, col=viridis(2), zlim=c(-1, 1))
-plot(ndvi2012, col=viridis(2), zlim=c(-1, 1))
+plot(ndvi2001, col=viridis, zlim=c(-0.5, 1))
+plot(ndvi2012, col=viridis, zlim=c(-0.5, 1))
 dev.off()
 
 dev.off()
