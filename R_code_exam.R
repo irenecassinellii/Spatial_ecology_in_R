@@ -138,7 +138,7 @@ dev.off()
 
 dev.off()
 
-# Calculate the multi-temporal change detection in vegetation cover between 2000 and 2012
+# Calculate the multi-temporal change detection in vegetation cover between 2001 and 2012
 amazondif = amazon2001[[1]] - amazon2012[[1]]
 
 ## Spatio-temporal change detection involves the analysis of raster images acquired at different time periods
