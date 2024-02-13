@@ -235,6 +235,18 @@ percent_h2012
 
 ## percent_h2012 = 30.00
 
+# Plot the two images together 
+par(mfrow=c(1, 2))
+plot(d1c$map)
+plot(d2c$map)
+
+# and save the image 
+png("amazonDC$MAP.png")
+par(mfrow=c(1, 2))
+plot(d1c$map)
+plot(d2c$map)
+dev.off()
+
 # Create the final table to assess land use and cover changes with the data.frame() function
 landcover <- c("Forest", "Humans")
 percent_2001 <- c(percent_f2001, percent_h2001)
@@ -265,3 +277,4 @@ p1 + p2
 dev.off()
 
 dev.off()
+# The end :)
