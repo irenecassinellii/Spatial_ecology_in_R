@@ -15,7 +15,7 @@ install.packages("patchwork")
 install.packages("viridis")
 install.packages("magick")
 
-# and then load and recall them
+# and then load them
 library(raster)
 library(RStoolbox)
 library(ggplot2)
@@ -99,8 +99,8 @@ plot (dvi2012, col=viridis, zlim=c(-50, 100))
 # Save the image with the png() function (better resolution compared to jpg)
 png("amazonDVI.png")
 par(mfrow=c(1, 2))
-plot (dvi2001, col=cl, zlim=c(-50, 100))
-plot (dvi2012, col=cl, zlim=c(-50, 100))
+plot (dvi2001, col=viridis, zlim=c(-50, 100))
+plot (dvi2012, col=viridis, zlim=c(-50, 100))
 dev.off()
 
 # Clean the current graphic visualization
@@ -141,7 +141,7 @@ dev.off()
 # Calculate the multi-temporal change detection in vegetation cover between 2000 and 2012
 amazondif = amazon2001[[1]] - amazon2012[[1]]
 
-## Multi-temporal change detection involves the analysis of raster images acquired at different time periods
+## Spatio-temporal change detection involves the analysis of raster images acquired at different time periods
 ## to identify and quantify changes in land use, vegetation cover, or other environmental phenomena over time.
 
 # Specify a color scheme and plot the resulting image 
