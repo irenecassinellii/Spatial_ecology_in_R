@@ -91,16 +91,16 @@ plot (dvi2012, col=cl, zlim=c(-50, 100))
 # Make it colorblind approved
 par(mfrow=c(1, 2))
 viridis <- colorRampPalette(viridis(7))(255)
-plot (dvi2001, col=viridis, zlim=c(-50, 100))
-plot (dvi2012, col=viridis, zlim=c(-50, 100))
+plot (dvi2001, col=viridis(255, option="mako"), zlim=c(-50, 100))
+plot (dvi2012, col=viridis(255, option="mako"), zlim=c(-50, 100))
 
 ## There is a decrease in the presence and density of vegetation between 2000 and 2012 
 
 # Save the image with the png() function (better resolution compared to jpg)
 png("amazonDVI.png")
 par(mfrow=c(1, 2))
-plot (dvi2001, col=viridis, zlim=c(-50, 100))
-plot (dvi2012, col=viridis, zlim=c(-50, 100))
+plot (dvi2001, col=viridis(255, option="mako"), zlim=c(-50, 100))
+plot (dvi2012, col=viridis(255, option="mako"), zlim=c(-50, 100))
 dev.off()
 
 # Clean the current graphic visualization
@@ -126,14 +126,14 @@ plot(ndvi2012, col=cl1, zlim=c(-0.5, 1))
 
 # and make it colorblind approved 
 par(mfrow=c(1,2))
-plot(ndvi2001, col=viridis, zlim=c(-0.5, 1))
-plot(ndvi2012, col=viridis, zlim=c(-0.5, 1))
+plot(ndvi2001, col=viridis(255, option="mako"), zlim=c(-0.5, 1))
+plot(ndvi2012, col=viridis(255, option="mako"), zlim=c(-0.5, 1))
 
 # Save the image with the png() function
 png("amazonNDVI.png")
 par(mfrow=c(1,2))
-plot(ndvi2001, col=viridis, zlim=c(-0.5, 1))
-plot(ndvi2012, col=viridis, zlim=c(-0.5, 1))
+plot(ndvi2001, col=viridis(255, option="mako"), zlim=c(-0.5, 1))
+plot(ndvi2012, col=viridis(255, option="mako"), zlim=c(-0.5, 1))
 dev.off()
 
 dev.off()
@@ -157,7 +157,7 @@ dev.off()
 
 ## Calculate vegetation indices from remote sensing (RS) data
 
-# Use the unsuperClass() function for the unsupervised classification of 2000 data
+# Use the unsuperClass() function for the unsupervised classification of 2001 data
 # and specify the number of classes (class 1 = forest, class 2 = human impact)
 d1c <- unsuperClass(amazon2001, nClasses=2)
 plot(d1c$map)
@@ -240,17 +240,11 @@ par(mfrow=c(1, 2))
 plot(d1c$map)
 plot(d2c$map)
 
-# and save the image 
-png("amazonDC$MAP.png")
-par(mfrow=c(1, 2))
-plot(d1c$map)
-plot(d2c$map)
-dev.off()
-
 # Create the final table to assess land use and cover changes with the data.frame() function
 landcover <- c("Forest", "Humans")
 percent_2001 <- c(percent_f2001, percent_h2001)
 percent_2012 <- c(percent_f2012, percent_h2012)
+
 percentage <- data.frame(landcover, percent_2001, percent_2012)
 percentage
 
@@ -263,10 +257,10 @@ ggplot(percentage, aes(x=landcover, y=percent_2001, color=landcover)) + geom_bar
 ggplot(percentage, aes(x=landcover, y=percent_2012, color=landcover)) + geom_bar(stat="identity", fill="white")
 
 # Assign the two plots to the objects p1 and p2 
-p1 <- ggplot(percentage, aes(x=landcover, y=percent_2001, color=landcover)) + geom_bar(stat="identity", fill="white") + coord_cartesian(ylim=c(0, 100))
-p2 <- ggplot(percentage, aes(x=landcover, y=percent_2012, color=landcover)) + geom_bar(stat="identity", fill="white") + coord_cartesian(ylim=c(0, 100))
+p1 <- ggplot(percentage, aes(x=landcover, y=percent_2001, color=landcover)) + geom_bar(stat="identity", fill="white") + ylim(c(0, 100))
+p2 <- ggplot(percentage, aes(x=landcover, y=percent_2012, color=landcover)) + geom_bar(stat="identity", fill="white") + ylim(c(0, 100))
 
-## I use the coord_cartesian() function to set the same scale
+## I use the ylim() function to set the same scale
 
 # Plot the two histograms and compare them 
 p1 + p2
