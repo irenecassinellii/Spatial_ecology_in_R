@@ -1,8 +1,8 @@
 ## Exam project: Amazon deforestation
 
-## Temporal analysis of the Amazon vegetation cover as a result of deforestation.
+## Spatio-temporal analysis of the Amazon vegetation cover as a result of deforestation.
 ## This project aims to study the decrease in vegetation cover in the Amazon rainforest 
-## caused by deforestation between 2001 and 2012
+## caused by human-made deforestation between 2001 and 2012.
 
 ## The images used for the analysis are taken from MODIS (Moderate Resolution Imaging Spectroradiometer) 
 ## on NASA’s Terra satellite (https://earthobservatory.nasa.gov/world-of-change/Deforestation).
