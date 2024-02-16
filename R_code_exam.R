@@ -152,6 +152,9 @@ plot(amazondif, col=cl2)
 png("amazonDIF.png")
 plot(amazondif, col=cl2)
 dev.off()
+ 
+## Darker areas indicate the biggest vegetation losses — usually the complete clearing 
+## of the original rainforest, while lighter areas showed little or no change.
 
 dev.off()
 
