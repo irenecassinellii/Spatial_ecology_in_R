@@ -49,7 +49,7 @@ par(mfrow=c(2,1))
 plotRGB(amazon2001, r=1, g=2, b=3) # multi-bands color images
 plotRGB(amazon2012, r=1, g=2, b=3)
 
-## Bands: 1 = Near-InfraRed (NIR), 2 = Red (R), 3 = Green (G)
+## Bands: 1 = Red (R), 2 = Near-infrared (NIR), 3 = Green (G)
 
 # Save the two images with the jpeg() function 
 jpeg("amazon2001RGB.jpg")
@@ -64,7 +64,7 @@ dev.off()
 dev.off()
 
 # Calculate the Amazon Difference Vegetation Index (DVI) of 2001
-dvi2001 = amazon2001[[1]] - amazon2001[[2]]
+dvi2001 = amazon2001[[2]] - amazon2001[[1]]
 plot(dvi2001)
 
 ## DVI = NIR - R 
@@ -73,67 +73,64 @@ plot(dvi2001)
 ## The DVI index can be useful for detecting the presence and density of vegetation.
 
 # To effectively visualize raster data use the colourRampPalette() function to define new image colours
-cl <- colorRampPalette(c("darkblue", "white", "red", "black"))(100)
-plot (dvi2001, col=cl, zlim=c(-50, 100))
-
-# zlim() function is used to specify the scale of the graph
+cl <- colorRampPalette(c("black", "red", "white", "darkblue"))(100)
+plot (dvi2001, col=cl)
 
 # Calculate the DVI of 2012 and plot it using the same color palette 
-dvi2012 = amazon2012[[1]] - amazon2012[[2]]
+dvi2012 = amazon2012[[2]] - amazon2012[[1]]
 plot(dvi2012)
-plot (dvi2012, col=cl, zlim=c(-50, 100))
+plot (dvi2012, col=cl)
 
-# Visualize the two graphs in a 2x1 grid and compare the results
+# Visualize the two graphs in a 2x1 grid and compare the results by setting the same resolution scale with the zlim() function
 par(mfrow=c(1, 2))
-plot (dvi2001, col=cl, zlim=c(-50, 100))
-plot (dvi2012, col=cl, zlim=c(-50, 100))
+plot (dvi2001, col=cl, zlim=c(-100, 50))
+plot (dvi2012, col=cl, zlim=c(-100, 50))
 
 # Make it colorblind approved
 par(mfrow=c(1, 2))
 viridis <- colorRampPalette(viridis(7))(255)
-plot (dvi2001, col=viridis(255, option="mako"), zlim=c(-50, 100))
-plot (dvi2012, col=viridis(255, option="mako"), zlim=c(-50, 100))
+plot (dvi2001, col=viridis(255, option="cividis"), zlim=c(-100, 50))
+plot (dvi2012, col=viridis(255, option="cividis"), zlim=c(-100, 50))
 
 ## There is a decrease in the presence and density of vegetation between 2000 and 2012 
 
 # Save the image with the png() function (better resolution compared to jpg)
 png("amazonDVI.png")
 par(mfrow=c(1, 2))
-plot (dvi2001, col=viridis(255, option="mako"), zlim=c(-50, 100))
-plot (dvi2012, col=viridis(255, option="mako"), zlim=c(-50, 100))
+plot (dvi2001, col=viridis(255, option="cividis"), zlim=c(-100, 50))
+plot (dvi2012, col=viridis(255, option="cividis"), zlim=c(-100, 50))
 dev.off()
 
 # Clean the current graphic visualization
 dev.off()
 
 # Calculate the Normalized Difference Vegetation Index (NDVI) of 2001
-ndvi2001 = dvi2001 / (amazon2001[[1]] + amazon2001[[2]])
-cl1 <- colorRampPalette(c("darkblue", "white", "red"))(100)
-plot (ndvi2001, col=cl1, zlim=c(-0.5, 1))
+ndvi2001 = dvi2001 / (amazon2001[[2]] + amazon2001[[1]])
+plot (ndvi2001, col=cl)
 
 ## NDVI is a normalized index that provides standardized values that can be more easily 
 ## interpreted and compared between different images or areas. NDVI values range 
 ## from -1 to +1, with higher values indicating a higher density of green vegetation.
 
 # Calculate the NDVI of 2012
-ndvi2012 = dvi2012 / (amazon2012[[1]] + amazon2012[[2]])
-plot (ndvi2012, col=cl1, zlim=c(-0.5, 1))
+ndvi2012 = dvi2012 / (amazon2012[[2]] + amazon2012[[1]])
+plot (ndvi2012, col=cl)
 
-# Now plot and compare the two graphs
+# Now plot and compare the two graphs by setting the resolution scale
 par(mfrow=c(1,2))
-plot(ndvi2001, col=cl1, zlim=c(-0.5, 1))
-plot(ndvi2012, col=cl1, zlim=c(-0.5, 1))
+plot(ndvi2001, col=cl, zlim=c(-1, 0.5))
+plot(ndvi2012, col=cl, zlim=c(-1, 0.5))
 
 # and make it colorblind approved 
 par(mfrow=c(1,2))
-plot(ndvi2001, col=viridis(255, option="mako"), zlim=c(-0.5, 1))
-plot(ndvi2012, col=viridis(255, option="mako"), zlim=c(-0.5, 1))
+plot(ndvi2001, col=viridis(255, option="cividis"), zlim=c(-1, 0.5))
+plot(ndvi2012, col=viridis(255, option="cividis"), zlim=c(-1, 0.5))
 
 # Save the image with the png() function
 png("amazonNDVI.png")
 par(mfrow=c(1,2))
-plot(ndvi2001, col=viridis(255, option="mako"), zlim=c(-0.5, 1))
-plot(ndvi2012, col=viridis(255, option="mako"), zlim=c(-0.5, 1))
+plot(ndvi2001, col=viridis(255, option="cividis"), zlim=c(-1, 0.5))
+plot(ndvi2012, col=viridis(255, option="cividis"), zlim=c(-1, 0.5))
 dev.off()
 
 dev.off()
