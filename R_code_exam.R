@@ -63,6 +63,8 @@ dev.off()
 # Clean the current graphic visualization
 dev.off()
 
+## Vegetation indices
+
 # Calculate the Amazon Difference Vegetation Index (DVI) of 2001
 dvi2001 = amazon2001[[2]] - amazon2001[[1]]
 plot(dvi2001)
@@ -155,7 +157,7 @@ dev.off()
 
 dev.off()
 
-## Calculate vegetation indices from remote sensing (RS) data
+## Classification
 
 # Use the unsuperClass() function for the unsupervised classification of 2001 data
 # and specify the number of classes (class 1 = forest, class 2 = human impact)
