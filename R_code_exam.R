@@ -91,16 +91,16 @@ plot (dvi2012, col=cl, zlim=c(-100, 50))
 # Make it colorblind approved
 par(mfrow=c(1, 2))
 viridis <- colorRampPalette(viridis(7))(255)
-plot (dvi2001, col=viridis(255, option="cividis"), zlim=c(-100, 50))
-plot (dvi2012, col=viridis(255, option="cividis"), zlim=c(-100, 50))
+plot (dvi2001, col=viridis(255, option="inferno"), zlim=c(-100, 50))
+plot (dvi2012, col=viridis(255, option="inferno"), zlim=c(-100, 50))
 
 ## There is a decrease in the presence and density of vegetation between 2000 and 2012 
 
 # Save the image with the png() function (better resolution compared to jpg)
 png("amazonDVI.png")
 par(mfrow=c(1, 2))
-plot (dvi2001, col=viridis(255, option="cividis"), zlim=c(-100, 50))
-plot (dvi2012, col=viridis(255, option="cividis"), zlim=c(-100, 50))
+plot (dvi2001, col=viridis(255, option="inferno"), zlim=c(-100, 50))
+plot (dvi2012, col=viridis(255, option="inferno"), zlim=c(-100, 50))
 dev.off()
 
 # Clean the current graphic visualization
@@ -125,14 +125,14 @@ plot(ndvi2012, col=cl, zlim=c(-1, 0.5))
 
 # and make it colorblind approved 
 par(mfrow=c(1,2))
-plot(ndvi2001, col=viridis(255, option="cividis"), zlim=c(-1, 0.5))
-plot(ndvi2012, col=viridis(255, option="cividis"), zlim=c(-1, 0.5))
+plot(ndvi2001, col=viridis(255, option="inferno"), zlim=c(-1, 0.5))
+plot(ndvi2012, col=viridis(255, option="inferno"), zlim=c(-1, 0.5))
 
 # Save the image with the png() function
 png("amazonNDVI.png")
 par(mfrow=c(1,2))
-plot(ndvi2001, col=viridis(255, option="cividis"), zlim=c(-1, 0.5))
-plot(ndvi2012, col=viridis(255, option="cividis"), zlim=c(-1, 0.5))
+plot(ndvi2001, col=viridis(255, option="inferno"), zlim=c(-1, 0.5))
+plot(ndvi2012, col=viridis(255, option="inferno"), zlim=c(-1, 0.5))
 dev.off()
 
 dev.off()
