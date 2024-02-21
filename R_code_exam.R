@@ -12,7 +12,7 @@
 ## Let's start!
 
 # Download the packages needed
-install.packages("terra")
+install.packages("raster")
 install.packages("RStoolbox")
 install.packages("ggplot2")
 install.packages("patchwork")
@@ -20,7 +20,7 @@ install.packages("viridis")
 install.packages("magick")
 
 # and then load them
-library(terra)
+library(raster)
 library(RStoolbox)
 library(ggplot2)
 library(patchwork)
@@ -48,7 +48,7 @@ amazon2001 <- brick("amazon2001_cropped.jpg")
 amazon2012 <- brick("amazon2012_cropped.jpg")
 
 # Use par() to arrange the images in a 2x1 grid (i.e., one below the other)
-# and create a multi-frame with the plotRGB() function of the terra package
+# and create a multi-frame with the plotRGB() function of the raster package
 par(mfrow=c(2, 1))
 plotRGB(amazon2001, r=1, g=2, b=3) # multi-bands color images
 plotRGB(amazon2012, r=1, g=2, b=3)
