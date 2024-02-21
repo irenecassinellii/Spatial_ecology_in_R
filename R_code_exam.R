@@ -1,14 +1,18 @@
 ## Exam project: Amazon deforestation
 
 ## Spatio-temporal analysis of the Amazon land cover between 2001 and 2012.
-## This project aims to assess the decrease in vegetation cover in the 
-## Amazon rainforest as a result of deforestation between 2001 and 2012.
+
+## This project aims to assess the decrease in the Amazon forest cover
+## between 2001 and 2012 caused by deforestation and other human activities.
 
 ## The images used for the analysis are taken from MODIS (Moderate Resolution Imaging Spectroradiometer) 
 ## on NASA’s Terra satellite (https://earthobservatory.nasa.gov/world-of-change/Deforestation).
 
-# Download the packages needed for the study
-install.packages("raster")
+
+## Let's start!
+
+# Download the packages needed
+install.packages("terra")
 install.packages("RStoolbox")
 install.packages("ggplot2")
 install.packages("patchwork")
@@ -16,21 +20,21 @@ install.packages("viridis")
 install.packages("magick")
 
 # and then load them
-library(raster)
+library(terra)
 library(RStoolbox)
 library(ggplot2)
 library(patchwork)
 library(viridis)
 library(magick)
 
-# Set the work directory to import the images needed
+# Set the working directory to import the images needed
 setwd("C:/Users/irene/Desktop/Esame R")
 
-# Use the brick() function of the raster package to display multi-layer raster objects
+# Use the brick() function to display multi-layer raster objects
 og_amazon2001 <- brick("Amazon2001.jpg")
 og_amazon2012 <- brick("Amazon2012.jpg")
 
-# Crop the two original images with the functions of the magick package
+# Crop the original images with the functions of the magick package
 og_amazon2001 <- image_read("Amazon2001.jpg")
 amazon2001_cropped <- image_crop(og_amazon2001, geometry="2500x2000+500+500")
 image_write(amazon2001_cropped, path="amazon2001_cropped.jpg")
@@ -39,12 +43,12 @@ og_amazon2012 <- image_read("Amazon2012.jpg")
 amazon2012_cropped <- image_crop(og_amazon2012, geometry="2500x2000+500+500")
 image_write(amazon2012_cropped, path="amazon2012_cropped.jpg")
 
-# and display the cropped images with the brick() function
+# and display the new cropped images with the brick() function
 amazon2001 <- brick("amazon2001_cropped.jpg")
 amazon2012 <- brick("amazon2012_cropped.jpg")
 
-# Use the function par() to arrange the two graphs in a 2x1 grid (i.e., one below the other)
-# and create a multi-frame with the plotRGB() function of the raster package
+# Use par() to arrange the images in a 2x1 grid (i.e., one below the other)
+# and create a multi-frame with the plotRGB() function of the terra package
 par(mfrow=c(2, 1))
 plotRGB(amazon2001, r=1, g=2, b=3) # multi-bands color images
 plotRGB(amazon2012, r=1, g=2, b=3)
@@ -63,9 +67,10 @@ dev.off()
 # Clean the current graphic visualization
 dev.off()
 
+
 ## Vegetation indices
 
-# Calculate the Amazon Difference Vegetation Index (DVI) of 2001
+# Calculate the Difference Vegetation Index (DVI) of 2001
 dvi2001 = amazon2001[[2]] - amazon2001[[1]]
 plot(dvi2001)
 
@@ -74,7 +79,7 @@ plot(dvi2001)
 ## the electromagnetic spectrum (typically, near-infrared (NIR) and red (R) bands).
 ## The DVI index can be useful for detecting the presence and density of vegetation.
 
-# To effectively visualize raster data use the colourRampPalette() function to define new image colours
+# To effectively visualize raster data set a new color palette with colorRampPalette()
 cl <- colorRampPalette(c("black", "red", "white", "darkblue"))(100)
 plot(dvi2001, col=cl)
 
@@ -83,18 +88,17 @@ dvi2012 = amazon2012[[2]] - amazon2012[[1]]
 plot(dvi2012)
 plot(dvi2012, col=cl)
 
-# Visualize the two graphs in a 2x1 grid and compare the results by setting the same resolution scale with the zlim() function
+# Visualize the two graphs in a 2x1 grid and compare the results
+# by setting the same resolution scale with the zlim() function
 par(mfrow=c(1, 2))
 plot(dvi2001, col=cl, zlim=c(-100, 50))
 plot(dvi2012, col=cl, zlim=c(-100, 50))
 
-# Make it colorblind approved
+# and make it colorblind approved using the viridis package (option inferno)
 par(mfrow=c(1, 2))
 viridis <- colorRampPalette(viridis(7))(255)
 plot(dvi2001, col=viridis(255, option="inferno"), zlim=c(-100, 50))
 plot(dvi2012, col=viridis(255, option="inferno"), zlim=c(-100, 50))
-
-## There is a decrease in the presence and density of vegetation between 2000 and 2012 
 
 # Save the image with the png() function (better resolution compared to jpg)
 png("amazonDVI.png")
@@ -118,12 +122,12 @@ plot(ndvi2001, col=cl)
 ndvi2012 = dvi2012 / (amazon2012[[2]] + amazon2012[[1]])
 plot(ndvi2012, col=cl)
 
-# Now plot and compare the two graphs by setting the resolution scale
+# Now plot and compare the two graphs by setting the same resolution scale
 par(mfrow=c(1, 2))
 plot(ndvi2001, col=cl, zlim=c(-1, 0.5))
 plot(ndvi2012, col=cl, zlim=c(-1, 0.5))
 
-# and make it colorblind approved 
+# and make it colorblind approved with the viridis package (option inferno)
 par(mfrow=c(1, 2))
 plot(ndvi2001, col=viridis(255, option="inferno"), zlim=c(-1, 0.5))
 plot(ndvi2012, col=viridis(255, option="inferno"), zlim=c(-1, 0.5))
@@ -140,7 +144,7 @@ dev.off()
 # Calculate the multi-temporal change detection in vegetation cover between 2001 and 2012
 amazondif = amazon2001[[1]] - amazon2012[[1]]
 
-## Spatio-temporal change detection involves the analysis of raster images acquired at different time periods
+## Spatio-temporal change detection involves the analysis of raster images acquired at different periods
 ## to identify and quantify changes in land use, vegetation cover, or other environmental phenomena over time.
 
 # Specify a color scheme and plot the resulting image 
@@ -157,10 +161,11 @@ dev.off()
 
 dev.off()
 
+
 ## Classification
 
 # Use the unsuperClass() function for the unsupervised classification of 2001 data
-# and specify the number of classes (class 1 = forest, class 2 = human impact)
+# and specify the number of classes (class 1 = forest, class 2 = humans)
 d1c <- unsuperClass(amazon2001, nClasses=2)
 plot(d1c$map)
 
@@ -172,7 +177,7 @@ val2001
 # 1     1     1 1378305
 # 2     1     2 3621695
 
-## Class 1: human impact = 1378305
+## Class 1: humans = 1378305
 ## Class 2: forest = 3621695
 
 # Forest component of 2001
@@ -210,7 +215,7 @@ val2012
 # 1     1     1 1499729
 # 2     1     2 3500271
 
-## Class 1: human impact = 1499729
+## Class 1: humans = 1499729
 ## Class 2: forest = 3500271
 
 # Forest component of 2012
@@ -246,7 +251,6 @@ plot(d2c$map)
 landcover <- c("Forest", "Humans")
 percent_2001 <- c(percent_f2001, percent_h2001)
 percent_2012 <- c(percent_f2012, percent_h2012)
-
 percentage <- data.frame(landcover, percent_2001, percent_2012)
 percentage
 
@@ -254,7 +258,7 @@ percentage
 # 1    Forest      72.4339     70.00542
 # 2    Humans      27.5661     29.99458
 
-# Plot data within a histogram with the ggplot() function of the ggplot package
+# Plot data within a histogram with the ggplot() function of the ggplot2 package
 ggplot(percentage, aes(x=landcover, y=percent_2001, color=landcover)) + geom_bar(stat="identity", fill="white")
 ggplot(percentage, aes(x=landcover, y=percent_2012, color=landcover)) + geom_bar(stat="identity", fill="white")
 
@@ -264,7 +268,7 @@ p2 <- ggplot(percentage, aes(x=landcover, y=percent_2012, color=landcover)) + ge
 
 ## I use the ylim() function to set the same scale
 
-# Plot the two histograms and compare them 
+# Plot the two histograms together and compare them 
 p1 + p2
 
 # Save the final image
@@ -272,5 +276,7 @@ png("histograms.png")
 p1 + p2
 dev.off()
 
+# Finally, clean the graphic visualization
 dev.off()
+
 # The end :)
