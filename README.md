@@ -7,6 +7,9 @@ Irene Cassinelli
 + scripts on populations
 + scripts on communities
 + scripts on ecosystems
-
-> **Note**
-> Scripts will be added lecture by lecture
++ scripts on remote sensing
++ scripts on spectral indices
++ scripts on time-series
++ scripts on classification
++ scripts on variability
++ scripts on pca
